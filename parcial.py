@@ -3,7 +3,7 @@ import csv
 import json 
 import os
 
-with open('C:\\Users\\Usuario\\Desktop\\CAROLINA\\PYL 1C 2023\\Semana 9\\dt.json') as archivo:
+with open('C:\\Users\\Usuario\\Desktop\\CAROLINA\\PYL 1C 2023\\Primer parcial\\dt.json') as archivo:
     data_nba = json.load(archivo)
 
 lista_nba = data_nba["jugadores"]
@@ -64,7 +64,7 @@ def mostrar_estadisticas_guardar_csv(lista):
         dato = "{}: {}".format(key_modificada.capitalize(), value)
         print(dato)
         lista_datos_para_guardar.append(dato)
-    nombre_archivo = "C:\\Users\\Usuario\\Desktop\\CAROLINA\\PYL 1C 2023\\Semana 9\\estadisticas.csv"
+    nombre_archivo = "C:\\Users\\Usuario\\Desktop\\CAROLINA\\PYL 1C 2023\\Primer parcial\\estadisticas.csv"
     with open(nombre_archivo, "w") as file:
         file.write(jugador_seleccionado["nombre"] + "\n")
         file.write(jugador_seleccionado["posicion"] + "\n")
@@ -212,7 +212,7 @@ def mostrar_y_ordenar_jugadores_con_mas_tiros_campo(lista):
         if posicion in jugadores_por_posicion:
             jugadores_por_posicion[posicion].append(nombre)
         else:
-            jugadores_por_posicion[posicion] = [nombre]
+            jugadores_por_posicion[posicion] = nombre
 
     if len(lista_jugadores_superando_valor) == 1:
         print("El jugador que supera el valor ingresado en porcentaje de tiros de campo es {} ".format(lista_jugadores_superando_valor[0]))
