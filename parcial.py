@@ -3,22 +3,19 @@ import csv
 import json 
 import os
 
-"""
-En esta instancia, se abre el archivo con los datos del Dream Team, y la lista se guarda en la variable 'data_nba'
-"""
+# En esta instancia, se abre el archivo con los datos del Dream Team, y la lista se guarda en la variable 'data_nba'
 with open('dt.json') as archivo:
     data_nba = json.load(archivo)
 
 lista_nba = data_nba["jugadores"]
 
-"""
-Recibe por parametro la lista que querramos ordenar, y un booleano que determina la forma de ordenamiento (True para ascendente y False para descendente).
-Ordena la lista pasada por parametro con el algoritmo Quick Sort, que divide la lista original en dos listas teniendo en cuenta si cada elemento es mayor
-o menor al elemento pivote, sucesivamente, hasta que cada sublista contenga solo un elemento.
-Arma y devuelve una nueva version de la lista original dependiendo de la forma de ordenamiento pasada como parámetro.
-"""
-
 def quick_sort(lista_original: list, flag_orden: bool) -> list:
+    """
+    Recibe por parametro la lista que querramos ordenar, y un booleano que determina la forma de ordenamiento (True para ascendente y False para descendente).
+    Ordena la lista pasada por parametro con el algoritmo Quick Sort, que divide la lista original en dos listas teniendo en cuenta si cada elemento es mayor
+    o menor al elemento pivote, sucesivamente, hasta que cada sublista contenga solo un elemento.
+    Arma y devuelve una nueva version de la lista original dependiendo de la forma de ordenamiento pasada como parámetro.
+    """
     lista_de = []
     lista_iz = []
     if len(lista_original) <= 1:
@@ -36,12 +33,13 @@ def quick_sort(lista_original: list, flag_orden: bool) -> list:
     lista_iz.extend(lista_de)
     return lista_iz
 
-"""
-Recibe como parámetro una lista con opciones a elegir por el usuario.
-Ofrece las opciones al usuario y la posibilidad de elegir una de ellas, y valida que haya ingresado un elemento válido.
-Devuelve la opción válida elegida.
-"""
+
 def ingresar_opcion(opciones: list) -> str:
+    """
+    Recibe como parámetro una lista con opciones a elegir por el usuario.
+    Ofrece las opciones al usuario y la posibilidad de elegir una de ellas, y valida que haya ingresado un elemento válido.
+    Devuelve la opción válida elegida.
+    """
     opcion = input(f"Ingresar una de las siguientes opciones: {opciones} ")
     while opcion not in opciones:
         print("Opción no válida. Inténtalo de nuevo.")
@@ -49,12 +47,13 @@ def ingresar_opcion(opciones: list) -> str:
     else:
         return opcion
 
-"""
-Recibe por parámetro un elemento, y valida que este sea un número. Funciona con numeros enteros o decimales, y valida decimales
-tanto con coma como con punto.
-Devuelve True si es número, False si no lo es.
-"""
+
 def es_numero(numero):
+    """
+    Recibe por parámetro un elemento, y valida que este sea un número. Funciona con numeros enteros o decimales, y valida decimales
+    tanto con coma como con punto.
+    Devuelve True si es número, False si no lo es.
+    """
     if numero.isdigit():
         return True
     elif numero.replace('.', '', 1).isnumeric():
@@ -65,25 +64,27 @@ def es_numero(numero):
         return False
 
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado e imprime en consola el nombre y la posición de cada jugador. Retorna 0 
-si la lista está vacía.
-"""
+
 def mostrar_jugadores(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado e imprime en consola el nombre y la posición de cada jugador. Retorna 0 
+    si la lista está vacía.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
     for jugador in lista:
         print("{} - {}".format(jugador["nombre"], jugador["posicion"]))
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado, retorna 0 si la lista está vacía. De lo contrario, pide al usuario que ingrese el
-índice de un elemento (jugador) en la lista, y valida que este sea mayor a 0 y menor o igual a la cantidad de elementos de la lista.
-Acomoda de forma estética la clave de cada estadística (reemplazando los _ por espacios), y lo imprime en consola junto a su respectivo valor.
-Guarda en un archivo CSV el nombre y la posición del jugador ingresado por el usuario, y sus estadísticas. Reescribe los datos si la función
-se vuelve a llamar.
-"""
+
 def mostrar_estadisticas_guardar_csv(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado, retorna 0 si la lista está vacía. De lo contrario, pide al usuario que ingrese el
+    índice de un elemento (jugador) en la lista, y valida que este sea mayor a 0 y menor o igual a la cantidad de elementos de la lista.
+    Acomoda de forma estética la clave de cada estadística (reemplazando los _ por espacios), y lo imprime en consola junto a su respectivo valor.
+    Guarda en un archivo CSV el nombre y la posición del jugador ingresado por el usuario, y sus estadísticas. Reescribe los datos si la función
+    se vuelve a llamar.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -106,12 +107,13 @@ def mostrar_estadisticas_guardar_csv(lista):
             file.write(str(dato) + "\n")
 
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado, crea una lista con los nombres de cada jugador y la pasa por parámetro a la hora
-de llamar a la función ingresar_opcion. Una vez validado el jugador ingresado por el usuario, imprime en pantalla los logros del mismo, de manera estética
-en forma de listado. Retorna 0 si la lista está vacía.
-"""
+
 def mostrar_logro_jugador(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado, crea una lista con los nombres de cada jugador y la pasa por parámetro a la hora
+    de llamar a la función ingresar_opcion. Una vez validado el jugador ingresado por el usuario, imprime en pantalla los logros del mismo, de manera estética
+    en forma de listado. Retorna 0 si la lista está vacía.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -127,13 +129,13 @@ def mostrar_logro_jugador(lista):
         print(str(logro))
 
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Crea un diccionario que contiene como clave
-el nombre de cada jugador, y el promedio de puntos por partido del mismo como valor. Ordena de forma ascendente el puntaje de cada jugador con la
-funcion quicksort, y luego, con dos bucles for, busca el nombre de cada jugador que coincide con cada puntaje ya ordenado, para agregarlos a una lista de
-manera ordenada. Imprime dicha lista por consola.
-"""
 def mostrar_promedio_puntos_ordenado_ascendente(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Crea un diccionario que contiene como clave
+    el nombre de cada jugador, y el promedio de puntos por partido del mismo como valor. Ordena de forma ascendente el puntaje de cada jugador con la
+    funcion quicksort, y luego, con dos bucles for, busca el nombre de cada jugador que coincide con cada puntaje ya ordenado, para agregarlos a una lista de
+    manera ordenada. Imprime dicha lista por consola.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -150,12 +152,12 @@ def mostrar_promedio_puntos_ordenado_ascendente(lista):
                 nombres_ordenados.append(jugador["nombre"])
     print(nombres_ordenados)
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía, sino crea una lista con los nombres de cada jugador
-y la pasa por parámetro a la hora de llamar a la función ingresar_opcion. Una vez validado el jugador ingresado por el usuario, 
-lo busca en la lista, e imprime una leyenda que especifica si tal jugador es o no es miembro del Salon de la Fama del Baloncesto.
-"""
 def mostrar_si_es_miembro_salon(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía, sino crea una lista con los nombres de cada jugador
+    y la pasa por parámetro a la hora de llamar a la función ingresar_opcion. Una vez validado el jugador ingresado por el usuario, 
+    lo busca en la lista, e imprime una leyenda que especifica si tal jugador es o no es miembro del Salon de la Fama del Baloncesto.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -174,12 +176,12 @@ def mostrar_si_es_miembro_salon(lista):
         print("{} no es miembro del Salon de la Fama del Baloncesto".format(jugador_seleccionado["nombre"]))
 
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado y una estadística a buscar dentro de los datos del jugador. 
-Retorna 0 si la lista está vacía. Busca al jugador que mayor valor tiene en esa estadística que se especifica por parametro, y lo o los imprime por consola,
-dependiendo si hay más de uno con un mismo valor (el mayor de todos).
-"""
 def nombrar_mayor_en_una_estadistica(lista, valor_buscado):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado y una estadística a buscar dentro de los datos del jugador. 
+    Retorna 0 si la lista está vacía. Busca al jugador que mayor valor tiene en esa estadística que se especifica por parametro, y lo o los imprime por consola,
+    dependiendo si hay más de uno con un mismo valor (el mayor de todos).
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -198,14 +200,14 @@ def nombrar_mayor_en_una_estadistica(lista, valor_buscado):
         print("Los jugadores con mayor cantidad de {} son: ".format(valor_buscado))
         print(jugadores_con_mayor_cantidad)
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado y una estadística a buscar dentro de los datos del jugador.
-Retorna 0 si la lista está vacía. Pide al usuario ingresar un valor y valida si el mismo es un numero. Si el numero es decimal, y está escrito
-con coma en vez de punto, lo reemplaza por punto para que la consola lo entienda como un decimal. Imprime por pantalla el nombre del jugador que supere
-el valor ingresado por el usuario en la estadística pasada por parámetro, los enlista si son más de un jugador, y aclara en el caso de no haber ninguno
-que cumpla con dicha condición.
-"""
 def mostrar_promedios_mayores_en_una_estadistica(lista, valor_buscado):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado y una estadística a buscar dentro de los datos del jugador.
+    Retorna 0 si la lista está vacía. Pide al usuario ingresar un valor y valida si el mismo es un numero. Si el numero es decimal, y está escrito
+    con coma en vez de punto, lo reemplaza por punto para que la consola lo entienda como un decimal. Imprime por pantalla el nombre del jugador que supere
+    el valor ingresado por el usuario en la estadística pasada por parámetro, los enlista si son más de un jugador, y aclara en el caso de no haber ninguno
+    que cumpla con dicha condición.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -231,12 +233,11 @@ def mostrar_promedios_mayores_en_una_estadistica(lista, valor_buscado):
         print("Los jugadores que superan el valor ingresado en {} son: ".format(valor_buscado_para_imprimir))
         print(lista_jugadores_superando_valor)
 
-
-"""
-Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Crea una lista con la cantidad de logros de cada jugador,
-busca el número mayor en la lista, e imprime el nombre del jugador o de los jugadores cuya cantidad de logros coincida con ese número máximo.
-"""
 def mostrar_jugador_con_mas_logros(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Crea una lista con la cantidad de logros de cada jugador,
+    busca el número mayor en la lista, e imprime el nombre del jugador o de los jugadores cuya cantidad de logros coincida con ese número máximo.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -256,14 +257,15 @@ def mostrar_jugador_con_mas_logros(lista):
         print(jugadores_con_mas_logros)
 
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Pide al usuario ingresar un valor y valida 
-si el mismo es un numero. Si el numero es decimal, y está escrito con coma en vez de punto, lo reemplaza por punto 
-para que la consola lo entienda como un decimal. Busca el jugador o los jugadores que superen el valor ingresado por el usuario en la estadistica
-"porcentaje tiros de campo", y luego, si son más de un jugador, los imprime por consola, categorizándolos por posición en la cancha. Aclara si es un
-solo jugador quien supera el valor, o si no hay ninguno que cumpla dicha condición.
-"""
+
 def mostrar_y_ordenar_jugadores_con_mas_tiros_campo(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Pide al usuario ingresar un valor y valida 
+    si el mismo es un numero. Si el numero es decimal, y está escrito con coma en vez de punto, lo reemplaza por punto 
+    para que la consola lo entienda como un decimal. Busca el jugador o los jugadores que superen el valor ingresado por el usuario en la estadistica
+    "porcentaje tiros de campo", y luego, si son más de un jugador, los imprime por consola, categorizándolos por posición en la cancha. Aclara si es un
+    solo jugador quien supera el valor, o si no hay ninguno que cumpla dicha condición.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -300,11 +302,12 @@ def mostrar_y_ordenar_jugadores_con_mas_tiros_campo(lista):
             for jugador in jugadores:
                 print("- {}".format(jugador))
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Calcula el promedio de puntos por partido de 
-todo el equipo, pero restando al jugador que menos valor tiene en dicha estadística. Imprime por pantalla el dato calculado.
-"""
+
 def calcular_promedio_puntos_sin_menor(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado. Retorna 0 si la lista está vacía. Calcula el promedio de puntos por partido de 
+    todo el equipo, pero restando al jugador que menos valor tiene en dicha estadística. Imprime por pantalla el dato calculado.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -317,10 +320,10 @@ def calcular_promedio_puntos_sin_menor(lista):
     promedio_puntos_equipo = suma_puntos_equipo / (len(total_puntos) - 1)
     print("El promedio de puntos por partido del equipo excluyendo al jugador con la menor cantidad de puntos por partido es {}".format(promedio_puntos_equipo))
 
-"""
-Imprime por pantalla cada opción que el usuario puede elegir.
-"""
 def mostrar_menu():
+    """
+    Imprime por pantalla cada opción que el usuario puede elegir.
+    """
     print("1. Mostrar todos los jugadores y su posicion.")
     print("2. Mostrar estadisticas de jugador.") 
     print("3. Buscar jugador por nombre y mostrar sus logros.") 
@@ -342,12 +345,12 @@ def mostrar_menu():
     print("19. Ingresar un valor y mostrar los jugadores , ordenados por posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a ese valor.")
     print("0. SALIR.")
 
-"""
-Imprime la funcion para mostrar el menú y pide al usuario un valor numérico válido, que coincida con alguna opción. Luego de la validación, llama
-a la función correspondiente dependiendo de la opción ingresada por el usuario, y luego de llamar a la función elegida, pide al usuario que de nuevo
-ingrese una opción por si quiere llamar a otra función del menú. Sale del programa si el usuario elige la opción 0.
-"""
 def utilizar_app():
+    """
+    Imprime la funcion para mostrar el menú y pide al usuario un valor numérico válido, que coincida con alguna opción. Luego de la validación, llama
+    a la función correspondiente dependiendo de la opción ingresada por el usuario, y luego de llamar a la función elegida, pide al usuario que de nuevo
+    ingrese una opción por si quiere llamar a otra función del menú. Sale del programa si el usuario elige la opción 0.
+    """
     mostrar_menu()
     while True:
         opcion = input("Ingrese una opcion valida del menu principal: ")
@@ -398,12 +401,12 @@ def utilizar_app():
 
 # 23 - BONUS
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado, el nombre del jugador a buscar y la estadística a buscar del jugador. 
-Retorna 0 si la lista está vacía. Busca el nombre del jugador en la lista y calcula qué posición en un ranking del 1 a 12 
-tiene el mismo, en la estadística pasada como tercer parámetro. Retorna un entero que representa a dicha posición.
-"""
 def calcular_posicion_en_ranking(lista, nombre_jugador, ranking):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado, el nombre del jugador a buscar y la estadística a buscar del jugador. 
+    Retorna 0 si la lista está vacía. Busca el nombre del jugador en la lista y calcula qué posición en un ranking del 1 a 12 
+    tiene el mismo, en la estadística pasada como tercer parámetro. Retorna un entero que representa a dicha posición.
+    """
     cantidad = len(lista)
     if cantidad <= 0:
         return 0
@@ -419,14 +422,13 @@ def calcular_posicion_en_ranking(lista, nombre_jugador, ranking):
                 posicion_jugador = puntajes_ordenados.index(puntos) + 1
     return posicion_jugador
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado y el nombre del jugador a buscar. Utilizando la función calcular_posicion_en_ranking,
-busca el nombre del jugador en la lista y crea cuatro variables que guardan la posicion del jugador en las estadisticas seleccionadas.
-crea un string en el que se enseña de forma estética los datos de las variables creadas y el nombre del jugador.
-Retorna dicho string.
-"""
-
 def enlistar_ranking_por_jugador(lista, nombre_jugador):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado y el nombre del jugador a buscar. Utilizando la función calcular_posicion_en_ranking,
+    busca el nombre del jugador en la lista y crea cuatro variables que guardan la posicion del jugador en las estadisticas seleccionadas.
+    crea un string en el que se enseña de forma estética los datos de las variables creadas y el nombre del jugador.
+    Retorna dicho string.
+    """
     for jugador in lista:
         if jugador["nombre"] == nombre_jugador:
             nombre = nombre_jugador
@@ -438,13 +440,13 @@ def enlistar_ranking_por_jugador(lista, nombre_jugador):
                                               ranking_en_asistencias_totales, ranking_en_robos_totales, nombre)
     return datos
 
-"""
-Recibe por parametro una lista con el formato del JSON trabajado. Crea una lista en la que se guardarán los nombres de las categorías y los datos
-extraídos de la función anterior enlistar_ranking_por_jugador, pasando por parámetro la lista a trabajar, y el nombre del jugador que se buscó en las líneas
-anteriores. Guarda en el archivo CSV linea por línea los datos de la lista_con_datos, agregando un salto de línea luego de cada iteración, para enseñarlo
-de forma estética.
-"""
 def crear_csv_con_posiciones_en_ranking(lista):
+    """
+    Recibe por parametro una lista con el formato del JSON trabajado. Crea una lista en la que se guardarán los nombres de las categorías y los datos
+    extraídos de la función anterior enlistar_ranking_por_jugador, pasando por parámetro la lista a trabajar, y el nombre del jugador que se buscó en las líneas
+    anteriores. Guarda en el archivo CSV linea por línea los datos de la lista_con_datos, agregando un salto de línea luego de cada iteración, para enseñarlo
+    de forma estética.
+    """
     lista_con_datos = []
     categorias = "Puntos Rebotes Asistencias Robos  Jugador"
     lista_con_datos.append(categorias)
