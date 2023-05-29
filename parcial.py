@@ -6,7 +6,7 @@ import os
 """
 En esta instancia, se abre el archivo con los datos del Dream Team, y la lista se guarda en la variable 'data_nba'
 """
-with open('C:\\Users\\Usuario\\Desktop\\CAROLINA\\PYL 1C 2023\\Primer parcial\\dt.json') as archivo:
+with open('dt.json') as archivo:
     data_nba = json.load(archivo)
 
 lista_nba = data_nba["jugadores"]
@@ -98,7 +98,7 @@ def mostrar_estadisticas_guardar_csv(lista):
         dato = "{}: {}".format(key_modificada.capitalize(), value)
         print(dato)
         lista_datos_para_guardar.append(dato)
-    nombre_archivo = "C:\\Users\\Usuario\\Desktop\\CAROLINA\\PYL 1C 2023\\Primer parcial\\estadisticas.csv"
+    nombre_archivo = "estadisticas.csv"
     with open(nombre_archivo, "w") as file:
         file.write(jugador_seleccionado["nombre"] + "\n")
         file.write(jugador_seleccionado["posicion"] + "\n")
@@ -396,4 +396,66 @@ def utilizar_app():
         elif opcion == "19":
             mostrar_y_ordenar_jugadores_con_mas_tiros_campo(lista_nba)
 
+# 23 - BONUS
+
+"""
+Recibe por parametro una lista con el formato del JSON trabajado, el nombre del jugador a buscar y la estadística a buscar del jugador. 
+Retorna 0 si la lista está vacía. Busca el nombre del jugador en la lista y calcula qué posición en un ranking del 1 a 12 
+tiene el mismo, en la estadística pasada como tercer parámetro. Retorna un entero que representa a dicha posición.
+"""
+def calcular_posicion_en_ranking(lista, nombre_jugador, ranking):
+    cantidad = len(lista)
+    if cantidad <= 0:
+        return 0
+    lista_puntajes = []
+    for jugador in lista:
+        jugador_puntaje = jugador["estadisticas"][ranking]
+        lista_puntajes.append(jugador_puntaje)
+    puntajes_ordenados = quick_sort(lista_puntajes, False)
+    posicion_jugador = 0
+    for puntos in puntajes_ordenados:
+        for jugador in lista:
+            if jugador["nombre"] == nombre_jugador and jugador["estadisticas"][ranking] == puntos:
+                posicion_jugador = puntajes_ordenados.index(puntos) + 1
+    return posicion_jugador
+
+"""
+Recibe por parametro una lista con el formato del JSON trabajado y el nombre del jugador a buscar. Utilizando la función calcular_posicion_en_ranking,
+busca el nombre del jugador en la lista y crea cuatro variables que guardan la posicion del jugador en las estadisticas seleccionadas.
+crea un string en el que se enseña de forma estética los datos de las variables creadas y el nombre del jugador.
+Retorna dicho string.
+"""
+
+def enlistar_ranking_por_jugador(lista, nombre_jugador):
+    for jugador in lista:
+        if jugador["nombre"] == nombre_jugador:
+            nombre = nombre_jugador
+    ranking_en_puntos_totales = calcular_posicion_en_ranking(lista, nombre, "puntos_totales")
+    ranking_en_rebotes_totales = calcular_posicion_en_ranking(lista, nombre, "rebotes_totales")
+    ranking_en_asistencias_totales = calcular_posicion_en_ranking(lista, nombre, "asistencias_totales")
+    ranking_en_robos_totales = calcular_posicion_en_ranking(lista, nombre, "robos_totales")
+    datos = "{}\t\t{}\t\t{}\t\t\t{}\t  {}".format(ranking_en_puntos_totales, ranking_en_rebotes_totales,
+                                              ranking_en_asistencias_totales, ranking_en_robos_totales, nombre)
+    return datos
+
+"""
+Recibe por parametro una lista con el formato del JSON trabajado. Crea una lista en la que se guardarán los nombres de las categorías y los datos
+extraídos de la función anterior enlistar_ranking_por_jugador, pasando por parámetro la lista a trabajar, y el nombre del jugador que se buscó en las líneas
+anteriores. Guarda en el archivo CSV linea por línea los datos de la lista_con_datos, agregando un salto de línea luego de cada iteración, para enseñarlo
+de forma estética.
+"""
+def crear_csv_con_posiciones_en_ranking(lista):
+    lista_con_datos = []
+    categorias = "Puntos Rebotes Asistencias Robos  Jugador"
+    lista_con_datos.append(categorias)
+    for jugador in lista:
+        nombre = jugador["nombre"]
+        lista_con_datos.append(enlistar_ranking_por_jugador(lista, nombre))
+    nombre_archivo = "ranking_jugadores.csv"
+    with open(nombre_archivo, "w") as file:
+        for linea in lista_con_datos:
+            file.write(str(linea))
+            file.write("\n")
+
+crear_csv_con_posiciones_en_ranking(lista_nba)
 utilizar_app()
