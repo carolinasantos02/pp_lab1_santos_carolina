@@ -459,5 +459,29 @@ def crear_csv_con_posiciones_en_ranking(lista):
             file.write(str(linea))
             file.write("\n")
 
+def mayor_en_cada_estadistica(lista):
+    mayor_en_temporadas = "El jugador con mas temporadas es {}".format(nombrar_mayor_en_una_estadistica(lista, "temporadas"))
+    mayor_en_puntos_totales = "El jugador con mas puntos totales es {}".format(nombrar_mayor_en_una_estadistica(lista, "puntos_totales"))
+    mayor_en_promedio_puntos_por_partido = "El jugador con mas promedio de puntos por partido es {}".format(nombrar_mayor_en_una_estadistica(lista, "promedio_puntos_por_partido"))
+    mayor_en_rebotes_totales = "El jugador con mas rebotes totales es {}".format(nombrar_mayor_en_una_estadistica(lista, "rebotes_totales"))
+    mayor_en_promedio_rebotes_por_partido = "El jugador con mas promedio de rebotes por partido es {}".format(nombrar_mayor_en_una_estadistica(lista, "promedio_rebotes_por_partido"))
+    mayor_en_asistencias_totales = "El jugador con mas asistencias totales es {}".format(nombrar_mayor_en_una_estadistica(lista, "asistencias_totales"))
+    mayor_en_promedio_asistencias_por_partido = "El jugador con mas promedio de asistencias por partido es {}".format(nombrar_mayor_en_una_estadistica(lista, "promedio_asistencias_por_partido"))
+    mayor_en_robos_totales = "El jugador con mas robos totales es {}".format(nombrar_mayor_en_una_estadistica(lista, "robos_totales"))
+    mayor_en_bloqueos = "El jugador con mas bloqueos totales es {}".format(nombrar_mayor_en_una_estadistica(lista, "bloqueos_totales"))
+    mayor_en_porcentaje_tiros_de_campo = "El jugador con mas porcentaje de tiros de campo es {}".format(nombrar_mayor_en_una_estadistica(lista, "porcentaje_tiros_de_campo"))
+    mayor_porcentaje_tiros_libres = "El jugador con mas porcentaje de tiros libres es {}".format(nombrar_mayor_en_una_estadistica(lista, "porcentaje_tiros_libres"))
+    mayor_porcentaje_tiros_triples = "El jugador con mas porcentaje de tiros triples es es {}".format(nombrar_mayor_en_una_estadistica(lista, "porcentaje_tiros_triples"))
+
+
+def determinar_jugadores_por_posicion(lista):
+    contador_posiciones = {}
+    for jugador in lista:
+        posicion = jugador["posicion"]
+        if posicion in contador_posiciones:
+            contador_posiciones[posicion] += 1
+        else: 
+            contador_posiciones[posicion] = 1
+    return contador_posiciones
+
 crear_csv_con_posiciones_en_ranking(lista_nba)
-utilizar_app()
